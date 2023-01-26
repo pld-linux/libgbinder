@@ -10,7 +10,9 @@ Source0:	https://github.com/mer-hybris/libgbinder/archive/%{version}/%{name}-%{v
 # Source0-md5:	ab55fd8341f8e36367299fc39810df4c
 Patch0:		install.patch
 URL:		https://github.com/mer-hybris/libgbinder
+BuildRequires:	glib2-devel >= 2.0
 BuildRequires:	libglibutil-devel
+BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -24,6 +26,8 @@ Summary:	Header files for gbinder library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki gbinder
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	glib2-devel >= 2.0
+Requires:	libglibutil-devel
 
 %description devel
 Header files for gbinder library.
@@ -48,10 +52,19 @@ Narzędzia Android binder działające z linii poleceń.
 %patch0 -p1
 
 %build
-%{__make} LIBDIR=%{_libdir} KEEP_SYMBOLS=1 release pkgconfig
+%{__make} release pkgconfig \
+	CC="%{__cc}" \
+	CFLAGS="%{rpmcflags} %{rpmcppflags}" \
+	LDFLAGS="%{rpmldflags}" \
+	LIBDIR=%{_libdir} \
+	KEEP_SYMBOLS=1
 
 for util in test/binder-bridge test/binder-list test/binder-ping test/binder-call; do
-	%{__make} -C ${util} KEEP_SYMBOLS=1 release
+	CFLAGS="%{rpmcflags} %{rpmcppflags}" \
+	LDFLAGS="%{rpmldflags}" \
+	%{__make} -C ${util} release \
+		CC="%{__cc}" \
+		KEEP_SYMBOLS=1
 done
 
 %install
@@ -62,9 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 for util in test/binder-bridge test/binder-list test/binder-ping test/binder-call; do
-	%{__make} -C ${util} DESTDIR=$RPM_BUILD_ROOT install
+	%{__make} -C ${util} install \
+		DESTDIR=$RPM_BUILD_ROOT
 done
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -74,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS README
+%doc AUTHORS LICENSE README
 %attr(755,root,root) %{_libdir}/libgbinder.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgbinder.so.1
 
