@@ -1,13 +1,13 @@
 Summary:	Android binder client library
 Summary(pl.UTF-8):	Biblioteka kliencka Android binder
 Name:		libgbinder
-Version:	1.1.30
-Release:	0.1
+Version:	1.1.32
+Release:	1
 License:	BSD
 Group:		Libraries
 #Source0Download: https://github.com/mer-hybris/libgbinder/tags
 Source0:	https://github.com/mer-hybris/libgbinder/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	ab55fd8341f8e36367299fc39810df4c
+# Source0-md5:	65557e5ce0339aedf2c22a7c0ac1b58d
 Patch0:		install.patch
 URL:		https://github.com/mer-hybris/libgbinder
 BuildRequires:	glib2-devel >= 2.0
@@ -18,8 +18,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 C interfaces for Android binder.
 
+Binder is Android-specific RPC mechanism, available in binder_linux
+module.
+
 %description -l pl.UTF-8
 Biblioteka kliencka Android binder.
+
+Binder to specyficzny dla Androida mechanizm IPC, dostępny w module
+binder_linux.
 
 %package devel
 Summary:	Header files for gbinder library
@@ -87,7 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS LICENSE README
+%doc AUTHORS LICENSE README debian/changelog
 %attr(755,root,root) %{_libdir}/libgbinder.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libgbinder.so.1
 
