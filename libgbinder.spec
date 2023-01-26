@@ -1,9 +1,11 @@
 Summary:	Android binder client library
+Summary(pl.UTF-8):	Biblioteka kliencka Android binder
 Name:		libgbinder
 Version:	1.1.30
 Release:	0.1
 License:	BSD
 Group:		Libraries
+#Source0Download: https://github.com/mer-hybris/libgbinder/tags
 Source0:	https://github.com/mer-hybris/libgbinder/archive/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	ab55fd8341f8e36367299fc39810df4c
 Patch0:		install.patch
@@ -14,25 +16,32 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 C interfaces for Android binder.
 
+%description -l pl.UTF-8
+Biblioteka kliencka Android binder.
+
 %package devel
-Summary:	Header files for %{name} library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki %{name}
+Summary:	Header files for gbinder library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki gbinder
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-Header files for %{name} library.
+Header files for gbinder library.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki %{name}.
+Pliki nagłówkowe biblioteki gbinder.
 
 %package tools
-Summary:	Binder tools
+Summary:	Android binder tools
+Summary(pl.UTF-8):	Narzędzia Android binder
 Group:		Applications/System
 Requires:	%{name} = %{version}-%{release}
 
 %description tools
-Binder command line utilities
+Android binder command line utilities.
+
+%description tools -l pl.UTF-8
+Narzędzia Android binder działające z linii poleceń.
 
 %prep
 %setup -q
@@ -66,14 +75,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS README
-%attr(755,root,root) %{_libdir}/%{name}.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/%{name}.so.1
+%attr(755,root,root) %{_libdir}/libgbinder.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libgbinder.so.1
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/%{name}.so
+%attr(755,root,root) %{_libdir}/libgbinder.so
 %{_includedir}/gbinder
-%{_pkgconfigdir}/%{name}.pc
+%{_pkgconfigdir}/libgbinder.pc
 
 %files tools
 %defattr(644,root,root,755)
